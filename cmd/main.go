@@ -5,13 +5,9 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/iuriikogan-snyk/snyk-controller/config"
+	"github.com/iuriikogan-snyk/snyk-controller/pkg/snyk_client"
 )
 
-var (
-	logger *slog.Logger
-	client *config.SnykClient
-)
 
 func init() {
 	var err error
@@ -25,7 +21,7 @@ func init() {
 	}
 
 	// Initialize the Snyk client
-	client, err = NewSnykClient(snykToken, snykOrgID, snykApiEndpoint)
+	client, err = (snykToken, snykOrgID, snykApiEndpoint)
 	if err != nil {
 		logger.Error("Failed to create Snyk client", slog.Any("error", err))
 		os.Exit(1)
