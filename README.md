@@ -60,11 +60,5 @@ Deployment Created ----->   | |  Snyk Webhook Server   | |-----> Snyk API
                                       |
                                       v
                                 Pull Image Attestation (proj id)
-<<<<<<< Updated upstream
                                 Snyk Project API
 ```
-
-
-=======
-                                Snyk Project API
->>>>>>> Stashed changes
