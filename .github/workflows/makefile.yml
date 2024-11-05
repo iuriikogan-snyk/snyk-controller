@@ -1,0 +1,27 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Test Project
+      run: make test
+
+    - name: Lint Project
+      run: make lint
+
+    - name: Build Project
+      run: make build
+
+    - name: Build Docker Container
+      run: make docker-container
