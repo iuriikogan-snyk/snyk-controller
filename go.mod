@@ -6,6 +6,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.8.0
 	github.com/Azure/azure-sdk-for-go/sdk/keyvault/azsecrets v0.12.0
 	github.com/aws/aws-sdk-go v1.55.5
+	github.com/golang/mock v1.6.0
 	oras.land/oras-go/v2 v2.5.0
 )
 
