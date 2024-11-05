@@ -1,0 +1,22 @@
+# Ignore binaries
+*.exe
+*.out
+*.a
+*.so
+
+# Ignore object files
+*.o
+*.obj
+
+# Ignore compiled Go files
+*.bin
+
+# Ignore cache and temporary files
+/vendor/
+/cache/
+*.cache
+*.tmp
+
+# Ignore Docker related files
+Dockerfile*
+*.dockerignore
