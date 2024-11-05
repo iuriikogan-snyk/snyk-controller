@@ -1,4 +1,4 @@
-# Snyk Admission Wehbook Server
+# Snyk Admission Webhook Server
 
 Create a Kubernetes admission webhook that integrates with Snyk to generate 'deployment-context attested' SBOMs, and, monitor container images deployed in a Kubernetes cluster, and automatically clean up relevant snyk projects when a container is deleted from a cluster.
 
