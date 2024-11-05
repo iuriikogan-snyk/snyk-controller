@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"os"
@@ -17,6 +18,7 @@ type SecretsManager interface {
 	GetSecret(name string) (string, error)
 }
 
+// AWS Secrets Manager
 type AwsSecretsManager struct {
 	sm *secretsmanager.SecretsManager
 }
@@ -40,6 +42,7 @@ func (a *AwsSecretsManager) GetSecret(name string) (string, error) {
 	return *output.SecretString, nil
 }
 
+// Azure Key Vault
 type AzureSecretsManager struct {
 	client *azsecrets.Client
 }
@@ -61,6 +64,7 @@ func NewAzureSecretsManager() (*AzureSecretsManager, error) {
 }
 
 func (az *AzureSecretsManager) GetSecret(name string) (string, error) {
+	ctx := context.Background()
 	resp, err := az.client.GetSecret(ctx, name, nil)
 	if err != nil {
 		return "", err
@@ -68,12 +72,29 @@ func (az *AzureSecretsManager) GetSecret(name string) (string, error) {
 	return *resp.Value, nil
 }
 
+type K8sSecretsManager struct{}
+
+func NewK8sSecretsManager() *K8sSecretsManager {
+	return &K8sSecretsManager{}
+}
+
+func (k *K8sSecretsManager) GetSecret(name string) (string, error) {
+	value := os.Getenv(name)
+	if value == "" {
+		return "", fmt.Errorf("secret %s not found", name)
+	}
+	return value, nil
+}
+
+// LoadSecretsManager function
 func LoadSecretsManager() (SecretsManager, error) {
 	switch os.Getenv("SECRETS_PROVIDER") {
 	case "aws":
 		return NewAwsSecretsManager()
 	case "azure":
 		return NewAzureSecretsManager()
+	case "k8s":
+		return NewK8sSecretsManager()
 	default:
 		return nil, fmt.Errorf("unsupported SECRETS_PROVIDER: %s", os.Getenv("SECRETS_PROVIDER"))
 	}
@@ -82,6 +103,7 @@ func LoadSecretsManager() (SecretsManager, error) {
 var (
 	snykToken        string
 	snykOrgID        string
+	snykApiEndpoint  string
 	registryUsername string
 	registryPassword string
 	registryUrl      string
@@ -96,9 +118,13 @@ func LoadConfig() error {
 	logger = slog.New(slog.NewTextHandler(os.Stdout, slog.LevelFromString(logLevel)))
 
 	snykOrgID = os.Getenv("SNYK_ORG_ID")
+	snykApiEndpoint = os.Getenv("SNYK_API_ENDPOINT")
 	registryUrl = os.Getenv("REGISTRY_URL")
 	if snykOrgID == "" {
 		logger.Warn("SNYK_ORG_ID is not set; some features may be unavailable")
+	}
+	if snykApiEndpoint == "" {
+		logger.Warn("SNYK_API_ENDPOINT is not set; API interactions may be affected")
 	}
 	if registryUrl == "" {
 		logger.Warn("REGISTRY_URL is not set; registry interactions may be affected")

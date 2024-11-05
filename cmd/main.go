@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"net/http"
 	"os"
 
 	"oras.land/oras-go/v2"
@@ -25,8 +24,8 @@ func init() {
 		logger.Error("Failed to load config", slog.Any("error", err))
 		os.Exit(1) // Exit the application on config load failure
 	}
-	// TODO define client factory
-	snykApiClient := http.Client
+	// initialize client factory
+	client := snykclient.NewClient(snykToken, snykOrgID)
 }
 
 func handleDeploymentCreate(deploymentName string, imageURL string) error {
