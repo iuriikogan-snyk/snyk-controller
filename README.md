@@ -32,7 +32,7 @@ As a Cloud Administrator, I want secure, automated access to container registry 
 As a Security Auditor, I need to trace deployment claims and origin information for each container image to ensure compliance with security and provenance policies
 
  
-
+```plaintext
                             +----------------------------+
                             |   Kubernetes Cluster       |
                             |                            |
@@ -41,7 +41,7 @@ Deployment Created ----->   | |  Snyk Webhook Server   | |-----> Snyk API
                             | |                        | |       - Container Monitor
                             | | - SBOM Generation      | |       - SBOM Generation
                             | | - Attestation Creation | |
-                            | | (Snyk project ID incl. | |
+                            | | (Snyk project ID incl) | |
                             | +------------------------+ |
                             +----------------------------+
                                       |
@@ -61,5 +61,6 @@ Deployment Created ----->   | |  Snyk Webhook Server   | |-----> Snyk API
                                       v
                                 Pull Image Attestation (proj id)
                                 Snyk Project API
+```
 
 
