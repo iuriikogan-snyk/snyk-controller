@@ -4,11 +4,13 @@ import (
 	"context"
 	"log/slog"
 	"os"
+
+	"github.com/iuriikogan-snyk/snyk-controller/config"
 )
 
 var (
 	logger *slog.Logger
-	client SnykClient
+	client *config.SnykClient
 )
 
 func init() {
