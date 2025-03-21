@@ -6,7 +6,7 @@ Key Features
 
 1. Automated SBOM Generation and Vulnerability Monitoring
    - The webhook automatically generates an SBOM in SPDX format for each container image deployed to the cluster.
-   - It optionally uploads the image to Snyk Monitor for continuous vulnerability tracking as long as the image remains active in the cluster.
+   - It optionally uploads the SBOM to Snyk Monitor for continuous vulnerability tracking as long as the image remains active in the cluster.
    - The SBOM and vulnerability data can be routed to centralized logging solutions for enhanced observability and auditing.
 
 2. Artifact Attestation Using ORAS
@@ -38,10 +38,10 @@ As a Security Auditor, I need to trace deployment claims and origin information 
                             |                            |
                             | +------------------------+ |
 Deployment Created ----->   | |  Snyk Webhook Server   | |-----> Snyk API
-                            | |                        | |       - Container Monitor
-                            | | - SBOM Generation      | |       - SBOM Generation
-                            | | - Attestation Creation | |
-                            | | (Snyk project ID incl) | |
+                            | |                        | |       - SBOM 
+                            | | - SBOM Generation      | |       - SBOM test
+                            | | - Attestation Creation | |       - SBOM monitor
+                            | | (Snyk org/proj.id incl)| |
                             | +------------------------+ |
                             +----------------------------+
                                       |
@@ -59,6 +59,6 @@ Deployment Created ----->   | |  Snyk Webhook Server   | |-----> Snyk API
         Deployment Deleted   ---------+        Project Cleanup
                                       |
                                       v
-                                Pull Image Attestation (proj id)
-                                Snyk Project API
+                                Pull Image Attestation (Snyk Org/Proj. ID)
+                                Snyk Project Delete API
 ```
